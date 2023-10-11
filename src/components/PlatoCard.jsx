@@ -1,10 +1,18 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 
-const CardComponent = ({ plato, onDelete }) => {
+
+const CardPlato = ({ plato, onDelete }) => {
+  const navigation = useNavigation();
+
   const handleDelete = () => {
-    onDelete(plato.id); // Suponiendo que plato.id es el identificador único del plato que deseas eliminar
+    onDelete(plato.id);
+  };
+
+  const goToPlatoPage = () => {
+    navigation.push('PlatoPag', { idPlato: plato.id });
   };
 
   return (
@@ -14,9 +22,15 @@ const CardComponent = ({ plato, onDelete }) => {
           <Image source={{ uri: plato.image }} style={styles.image} />
         </View>
         <Text style={styles.title}>{plato.title}</Text>
-        <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
-          <Text style={styles.deleteButtonText}>Eliminar</Text>
-        </TouchableOpacity>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
+            <Text style={styles.buttonText}>Eliminar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={goToPlatoPage} style={styles.navigateToPlatoPageButton}>
+            <Text style={styles.buttonText}>Más Info</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -25,15 +39,15 @@ const CardComponent = ({ plato, onDelete }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row', // Cambiar la dirección a 'row'
-    flexWrap: 'wrap', // Permitir que las tarjetas se envuelvan a la siguiente línea
-    justifyContent: 'center', // Centrar horizontalmente en la pantalla
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   card: {
     backgroundColor: 'white',
     borderRadius: 8,
     margin: 10,
-    width: 400,
+    width: 500,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -44,15 +58,15 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '40%',
-    padding: 4, 
-    width: 200, 
-    height: 200, 
+    padding: 4,
+    width: 200,
+    height: 200,
     borderRadius: 8,
   },
   image: {
     width: '100%',
     height: '100%',
-    borderRadius: 8, 
+    borderRadius: 8,
   },
   title: {
     flex: 1,
@@ -60,16 +74,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
   },
+  buttonContainer: {
+    flexDirection: 'column', // Botones uno encima del otro
+    alignItems: 'center',
+  },
   deleteButton: {
     backgroundColor: 'red',
     padding: 10,
     borderRadius: 5,
-    marginTop: 10,
+    margin: 10,
+    width: '80%'
   },
-  deleteButtonText: {
+  navigateToPlatoPageButton: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+    width: '80%'
+  },
+  buttonText: {
     color: 'white',
     textAlign: 'center',
   },
 });
 
-export default CardComponent;
+export default CardPlato;
