@@ -7,7 +7,7 @@ const InfoPlato = ({ plato }) => {
             <View style={styles.card}>
                 <Image source={{ uri: plato.image }} style={styles.image} />
                 <Text style={styles.title}>{plato.title}</Text>
-                <Text style={styles.summary}>{plato.summary}</Text> {/* Agrega el resumen debajo del título */}
+                <Text style={styles.summary}>{plato.summary}</Text> 
             </View>
         </View>
     );
