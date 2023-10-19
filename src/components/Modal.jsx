@@ -2,35 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import ModalsCard from './ModalsCard';
 
-const InfoPlato = ({ platos, noDis, isVisible, onClose, onAdd }) => {
+const InfoPlato = ({ platos, setPlatos, isVisible, onClose, onAdd }) => {
     const [searchText, setSearchText] = useState('');
-    const [list, setList] = useState([]);
-
-    useEffect(() => {
-        const newList = platos.filter((platoData) => {
-            // Verifica si el plato actual en data no está en el menú
-            return !noDis.some((platoMenu) => platoMenu.id === platoData.id);
-        });
-
-        setList(newList)
-        console.log('hola', platos)
-    }, []);
 
     const handleSearch = (text) => {
         const filteredResults = platos.filter((item) =>
             item.title.toLowerCase().includes(text.toLowerCase())
         );
         setSearchText(text);
-        setList(filteredResults);
+        setPlatos(filteredResults);
     };
 
     const handleClose = () => {
-        const newList = platos.filter((platoData) => {
-            // Verifica si el plato actual en data no está en el menú
-            return !noDis.some((platoMenu) => platoMenu.id === platoData.id);
-        });
-
-        setList(newList)
         onClose()
         setSearchText('')
     };
@@ -39,7 +22,7 @@ const InfoPlato = ({ platos, noDis, isVisible, onClose, onAdd }) => {
         const updatedPlatos = platos.filter((item) => item.id !== plato.id);
 
         onAdd(plato)
-        setList(updatedPlatos)
+        setPlatos(updatedPlatos)
         onClose()
     };
 
@@ -63,7 +46,7 @@ const InfoPlato = ({ platos, noDis, isVisible, onClose, onAdd }) => {
                         </TouchableOpacity>
                     </View>
                     <FlatList
-                        data={list}
+                        data={platos}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => <ModalsCard plato={item} onAdd={handleAdd} />}
                     />

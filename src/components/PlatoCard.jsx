@@ -8,7 +8,7 @@ const CardPlato = ({ plato, onDelete }) => {
   const navigation = useNavigation();
 
   const handleDelete = () => {
-    onDelete(plato.id);
+    onDelete(plato);
   };
 
   const goToPlatoPage = () => {

@@ -5,8 +5,8 @@ import Modal from '../components/Modal'
 import mockData from '../mocks/data';
 
 const MenuPag = ({ route }) => {
-    let data = [];
-    const [lista, setLista] = useState(data);
+    let data
+    const [lista, setLista] = useState([]);
     const [busqueda, setBusqueda] = useState('');
     const [menuFiltrado, setMenuFiltrado] = useState([]);
     const [menu, setMenu] = useState([]);
@@ -34,14 +34,7 @@ const MenuPag = ({ route }) => {
             });
     }, []);
 
-    const updateList = (menu) => {
-        const newList = data.filter((platoData) => {
-            // Verifica si el plato actual en data no está en el menú
-            return !menu.some((platoMenu) => platoMenu.id === platoData.id);
-        });
-        console.log(newList)
-        setLista(newList);
-    };
+    
 
     const handleSearch = (text) => {
         const filteredResults = menu.filter((item) =>
@@ -59,20 +52,20 @@ const MenuPag = ({ route }) => {
         setModalVisible(true);
     };
 
-    const handleDelete = (id) => {
-        const updatedMenu = menu.filter((item) => item.id !== id);
+    const handleDelete = (plato) => {
+        const updatedMenu = menu.filter((item) => item.id !== plato.id);
         setMenu(updatedMenu);
         setMenuFiltrado(updatedMenu);
-        updateList(updatedMenu); // Actualiza la lista después de eliminar un plato
+
+        const newLista = [...lista, plato]
+        console.log(newLista)
+        setLista(newLista)
     };
 
     const handleAdd = (plato) => {
         const newmenu = [...menu, plato]
         setMenu(newmenu);
         setMenuFiltrado([...menuFiltrado, plato]);
-        updateList(newmenu); // Actualiza la lista después de eliminar un plato
-
-        console.log(newmenu)
     };
 
     return (
@@ -93,7 +86,7 @@ const MenuPag = ({ route }) => {
                 numColumns={3}
                 renderItem={({ item }) => <PlatoC plato={item} onDelete={handleDelete} />}
             />
-            <Modal platos={lista} isVisible={modalVisible} onClose={cerrarModal} onAdd={handleAdd} noDis={menu} />
+            <Modal platos={lista} setPlatos={setLista} isVisible={modalVisible} onClose={cerrarModal} onAdd={handleAdd} noDis={menu} />
                 
         </View>
     );
