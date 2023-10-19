@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import HTML from 'react-native-render-html';
 
 const InfoPlato = ({ plato }) => {
+
     return (
         <View style={styles.container}>
             <View style={styles.card}>
                 <Image source={{ uri: plato.image }} style={styles.image} />
                 <Text style={styles.title}>{plato.title}</Text>
-                <Text style={styles.summary}>{plato.summary}</Text> 
+                <HTML source={{ html: plato.summary }} containerStyle={styles.summary} />
             </View>
         </View>
     );
