@@ -79,11 +79,12 @@ const MenuPag = ({ route }) => {
             <Button
                 title="Agregar Plato al Menu"
                 onPress={() => openModal()} // Mostrar el Modal al hacer clic en el botón
+                disabled={menu.length === 4}
             />
             <FlatList
                 data={menuFiltrado} // Usamos los resultados de la búsqueda
                 keyExtractor={(item) => item.id.toString()}
-                numColumns={3}
+                numColumns={2}
                 renderItem={({ item }) => <PlatoC plato={item} onDelete={handleDelete} />}
             />
             <Modal platos={lista} setPlatos={setLista} isVisible={modalVisible} onClose={cerrarModal} onAdd={handleAdd} noDis={menu} />
